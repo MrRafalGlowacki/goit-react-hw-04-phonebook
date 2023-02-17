@@ -1,16 +1,97 @@
+import React, { useState, useEffect } from 'react';
+import { nanoid } from 'nanoid';
+import { AddForm } from './AddForm/AddForm';
+import { ContactList } from './ContactsList/ContactsList';
+import { AppContext } from './AppContext';
+
 export const App = () => {
+  const [contacts, setContacts] = useState([]);
+  const [newContactName, setNewContactName] = useState('');
+  const [newContactNumber, setNewContactNumber] = useState('');
+  const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    const savedContacts = JSON.parse(localStorage.getItem('contacts'));
+    if (!savedContacts) {
+      return;
+    } else
+      try {
+        setContacts(savedContacts);
+      } catch (error) {
+        console.log(error);
+      }
+  }, []);
+
+  useEffect(() => {
+    if (contacts.length > 0) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }, [contacts]);
+
+  // const handleContactWillUnmount =  name => {
+  //   if (filter !== '') {
+  //     return;
+  //   } else {
+  //     alert(`${name} is removed from your contacts`);
+  //   }
+  // };
+
+  const handleRemoveContact = id => {
+    const remainingContacts = contacts.filter(contact => contact.id !== id);
+    setContacts(remainingContacts);
+  };
+
+  const handleChange = event => {
+    const { name, value } = event.target;
+    switch (name) {
+      case 'name':
+        setNewContactName(value);
+        break;
+      case 'number':
+        setNewContactNumber(value);
+        break;
+      case 'filter':
+        setFilter(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    const found = contacts.find(contact => contact.name === newContactName);
+    if (found) {
+      alert(`${newContactName} is already in contacts`);
+    } else {
+      const contact = {
+        id: nanoid(),
+        name: newContactName,
+        number: newContactNumber,
+      };
+      const newContacts = [contact, ...contacts];
+      setContacts(newContacts);
+      setNewContactName('');
+      setNewContactNumber('');
+    }
+  };
+
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
+    <AppContext.Provider
+      value={{
+        handleChange,
+        newContactName,
+        newContactNumber,
+        filter,
+        handleRemoveContact,
       }}
     >
-      React homework template
-    </div>
+      <AddForm onSubmit={handleSubmit} />
+      <ContactList
+        contactList={contacts}
+
+        // onUnmount={handleContactWillUnmount}
+      />
+    </AppContext.Provider>
   );
 };
