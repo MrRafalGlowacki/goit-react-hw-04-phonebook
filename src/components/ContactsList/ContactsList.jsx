@@ -5,10 +5,7 @@ import { ContactFilter } from './ContactFilter/ContactFilter';
 import { ContactsListItem } from './ContactsListItem/ContactsListItem';
 import { AppContext } from 'components/AppContext';
 
-export const ContactList = ({
-  contactList,
-  // onUnmount,
-}) => {
+export const ContactList = ({ contactList }) => {
   const { filter } = useContext(AppContext);
   const getFilteredList = () => {
     return contactList.filter(contact =>
@@ -22,7 +19,6 @@ export const ContactList = ({
       id={contact.id}
       name={contact.name}
       number={contact.number}
-      // onUnmount={onUnmount}
     />
   ));
   return (

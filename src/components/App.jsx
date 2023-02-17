@@ -28,14 +28,6 @@ export const App = () => {
     }
   }, [contacts]);
 
-  // const handleContactWillUnmount =  name => {
-  //   if (filter !== '') {
-  //     return;
-  //   } else {
-  //     alert(`${name} is removed from your contacts`);
-  //   }
-  // };
-
   const handleRemoveContact = id => {
     const remainingContacts = contacts.filter(contact => contact.id !== id);
     setContacts(remainingContacts);

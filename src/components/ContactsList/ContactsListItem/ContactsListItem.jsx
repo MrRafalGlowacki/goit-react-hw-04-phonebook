@@ -3,20 +3,7 @@ import PropTypes from 'prop-types';
 import css from './ContactsListItem.module.css';
 import { AppContext } from 'components/AppContext';
 
-export const ContactsListItem = ({
-  id,
-  name,
-  number,
-
-  // onUnmount,
-}) => {
-  // useEffect(() => {
-  //   console.log('coś');
-  //   return () => {
-  //     console.log(`Człowiek ${name} zostal usunięty`);
-  //     // onUnmount(name);
-  //   };
-  // }, [name]);
+export const ContactsListItem = ({ id, name, number }) => {
   const { handleRemoveContact } = useContext(AppContext);
   return (
     <li key={id} className={css.item}>
