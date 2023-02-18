@@ -4,7 +4,6 @@ const initialState = {
   newContactName: '',
   newContactNumber: '',
   filter: '',
-  setFilter: () => {},
   handleRemoveContact: () => {},
   handleChange: () => {},
 };
