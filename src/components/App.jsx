@@ -14,12 +14,9 @@ export const App = () => {
     const savedContacts = JSON.parse(localStorage.getItem('contacts'));
     if (!savedContacts) {
       return;
-    } else
-      try {
-        setContacts(savedContacts);
-      } catch (error) {
-        console.log(error);
-      }
+    } else {
+      setContacts(savedContacts);
+    }
   }, []);
 
   useEffect(() => {
@@ -79,11 +76,7 @@ export const App = () => {
       }}
     >
       <AddForm onSubmit={handleSubmit} />
-      <ContactList
-        contactList={contacts}
-
-        // onUnmount={handleContactWillUnmount}
-      />
+      <ContactList contactList={contacts} />
     </AppContext.Provider>
   );
 };
